@@ -10,9 +10,9 @@ title('512*512原始图像');
 [N, M]=size(I);
 z = 2 * ceil(norm(size(I) - floor((size(I) - 1) / 2) - 1)) + 3; % radon变换默认平移点数/角度
 Nt = 360; % 角度采样点数
-Nd = N; % 平移数
+Nd = N; % 平移数，实际上就是指，在theta方向上进行线积分的个数
 x = pi / 180; % 角度增量
-d = N / Nd; % 平移步长
+d = N / Nd; % 平移步长，即在固定角theta上移动的步长
 theta = 1 : Nt;
 a = zeros([N, M]);
 
@@ -30,7 +30,7 @@ a = zeros([N, M]);
 e = floor((z - Nd) / 2) + 2;
 testR = R;
 R = R(e:(Nd + e - 1), :); % R就是雷登变换的投影
-R1 = reshape(R, N, 360);
+R1 = reshape(R, N, Nt);
 figure(2);
 imshow(R, []);
 
